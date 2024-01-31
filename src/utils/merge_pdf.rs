@@ -1,7 +1,7 @@
 use std::collections::BTreeMap;
 
 use lopdf::{Bookmark, Document, Object, ObjectId};
-use web_sys::{console, js_sys::Uint8Array,js_sys::Array, Blob, File, FileList};
+use web_sys::{console, js_sys::Array, js_sys::Uint8Array, Blob, File, FileList};
 
 async fn read_file_content(file: File) -> Vec<u8> {
     let file_0 = file.array_buffer();
@@ -217,21 +217,6 @@ pub async fn merge_pdf_files(docs: FileList) -> Option<Blob> {
             return None;
         }
     };
-
-    // let uint8_array = Uint8Array::from(doc_bits.as_slice());
-
-    // let output = match File::new_with_u8_array_sequence_and_options(
-    //     &uint8_array,
-    //     "output.pdf",
-    //     &FilePropertyBag::new().type_("application/pdf"),
-    // ) {
-    //     Ok(file) => file,
-    //     Err(_) => {
-    //         console::log_1(&format!("Error saving PDF").into());
-
-    //         return None;
-    //     }
-    // };
     let uint8_array = vec_to_uint8_array(doc_bits);
 
     let array_buffer = Array::new();
@@ -249,16 +234,5 @@ pub async fn merge_pdf_files(docs: FileList) -> Option<Blob> {
         }
     };
 
-    console::log_1(&blob.clone().into());
-
-    // Create a File from the Blob
-    // let file = match File::new_with_blob_sequence(&blob, "test.pdf".into()) {
-    //     Ok(file) => file,
-    //     Err(_) => {
-    //         console::log_1(&format!("Error saving PDF").into());
-
-    //         return None;
-    //     }
-    // };
     Some(blob)
 }
