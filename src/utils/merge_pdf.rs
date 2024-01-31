@@ -1,7 +1,7 @@
 use std::collections::BTreeMap;
 
 use lopdf::{Bookmark, Document, Object, ObjectId};
-use web_sys::{console, js_sys::Uint8Array, Blob, File, FileList};
+use web_sys::{console, js_sys::Uint8Array,js_sys::Array, Blob, File, FileList};
 
 async fn read_file_content(file: File) -> Vec<u8> {
     let file_0 = file.array_buffer();
@@ -234,8 +234,11 @@ pub async fn merge_pdf_files(docs: FileList) -> Option<Blob> {
     // };
     let uint8_array = vec_to_uint8_array(doc_bits);
 
+    let array_buffer = Array::new();
+    array_buffer.push(&uint8_array.buffer());
+
     let blob = match Blob::new_with_u8_array_sequence_and_options(
-        &uint8_array.into(),
+        &array_buffer.into(),
         web_sys::BlobPropertyBag::new().type_("application/pdf"),
     ) {
         Ok(blob) => blob,
