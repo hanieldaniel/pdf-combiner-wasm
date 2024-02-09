@@ -10,7 +10,6 @@ async fn read_file_content(file: File) -> Vec<u8> {
     let uint8_array = Uint8Array::new(&fut);
 
     let vec = uint8_array.to_vec();
-
     vec
 }
 
